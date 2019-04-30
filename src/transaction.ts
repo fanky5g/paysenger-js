@@ -17,6 +17,7 @@ export interface MomoRequest {
 export interface Transaction {
   transactionId: string
   transactionType: string
+  mock?: string
   callbackURL: string
   momo: Momo
 };
@@ -26,6 +27,7 @@ interface TransactionRequest {
   request_type: string
   ticket: string
   callback_url: string
+  mock?: string
   exttrid: string
   momo: MomoRequest
   card?: any // TODO: implement card transaction requests
@@ -41,6 +43,7 @@ export function runTransaction(transaction: Transaction, callback: (err?: Error,
     ticket: this._config.nonce,
     callback_url: transaction.callbackURL,
     exttrid: transaction.transactionId,
+    mock: transaction.mock,
     momo: {
       phone_number: transaction.momo.phoneNumber,
       network: transaction.momo.network,
