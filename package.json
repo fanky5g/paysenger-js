@@ -1,6 +1,6 @@
 {
   "name": "paysenger-js",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Paysenger web client",
   "main": "lib/index.js",
   "repository": "https://github.com/fanky5g/paysenger-js",

@@ -57,10 +57,10 @@ export function runTransaction(transaction: Transaction, callback: (err?: Error,
 
   const subscription = this._client.subscribe(`transactions#${this._config.sessionId}`, (message) => {
     // message received from subscription
-    console.log(message);
+    // console.log(message);
     const cb = this._registeredCallbacks[identifier];
     if (typeof cb === "function") {
-      cb(message);
+      cb(null, message);
       // TODO: unsubscribe from receiving updates as transaction receives once?
     }
   });
