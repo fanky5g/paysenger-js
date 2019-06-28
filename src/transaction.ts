@@ -3,14 +3,12 @@ import request from "./request";
 export interface Momo {
   phoneNumber: string
   network: string
-  amount: number
   voucherCode: string
 };
 
 export interface MomoRequest {
   phone_number: string
   network: string
-  amount: number
   voucher_code: string
 };
 
@@ -18,6 +16,7 @@ export interface Transaction {
   transactionId: string
   transactionType: string
   mock?: string
+  amount: number
   callbackURL: string
   momo: Momo
 };
@@ -29,6 +28,7 @@ interface TransactionRequest {
   callback_url: string
   mock?: string
   exttrid: string
+  amount: number
   momo: MomoRequest
   card?: any // TODO: implement card transaction requests
 };
@@ -44,17 +44,17 @@ export function runTransaction(transaction: Transaction, callback: (err?: Error,
     callback_url: transaction.callbackURL,
     exttrid: transaction.transactionId,
     mock: transaction.mock,
+    amount: transaction.amount,
     momo: {
       phone_number: transaction.momo.phoneNumber,
       network: transaction.momo.network,
       voucher_code: transaction.momo.voucherCode,
-      amount: transaction.momo.amount,
     },
   };
 
   const identifier = `transactions:${transaction.transactionId}`;
   this._registeredCallbacks[identifier] = callback;
-  
+
   const subscription = this._client.subscribe(`transactions#${this._config.sessionId}`, (message) => {
     // message received from subscription
     console.log(message);
