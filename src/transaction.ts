@@ -12,6 +12,16 @@ export interface MomoRequest {
   voucher_code: string
 };
 
+export interface Recipient {
+  phoneNumber: string
+  recipientNetwork: string
+};
+
+export interface RecipientRequest {
+  phone_number: string
+  network: string
+};
+
 export interface Transaction {
   transactionId: string
   transactionType: string
@@ -19,6 +29,7 @@ export interface Transaction {
   amount: number
   callbackURL: string
   momo: Momo
+  recipient?: Recipient
 };
 
 interface TransactionRequest {
@@ -30,6 +41,7 @@ interface TransactionRequest {
   exttrid: string
   amount: number
   momo: MomoRequest
+  recipient?: RecipientRequest
   card?: any // TODO: implement card transaction requests
 };
 
@@ -51,6 +63,13 @@ export function runTransaction(transaction: Transaction, callback: (err?: Error,
       voucher_code: transaction.momo.voucherCode,
     },
   };
+
+  if (transaction.recipient) {
+    transactionRequest.recipient = {
+      phone_number: transaction.recipient.phoneNumber,
+      network: transaction.recipient.recipientNetwork,
+    };
+  }
 
   const identifier = `transactions:${transaction.transactionId}`;
   this._registeredCallbacks[identifier] = callback;
